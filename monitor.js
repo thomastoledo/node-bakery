@@ -36,8 +36,8 @@ module.exports = {
         //Monitoring de l'uptime
         function(){
           var uptime = processMonitor.get('uptime');
-          var req = "l'adresse du serveur";
-          sendRequest(server, ...);
+          sendRequest(server, "GET",
+               "nodebakery|uptime", uptime);
         },
 
         //Monitoring memory usage du process
@@ -47,28 +47,28 @@ module.exports = {
             //rss
             function(){
               sendRequest(server, "GET",
-               server + "|rss", processMonitor.get('rss'),);
+               "nodebakery|rss", processMonitor.get('rss'));
             },
             //vsize
             function(){
               sendRequest(server, "GET",
-               server + "|vsize", processMonitor.get('vsize'));
+               "nodebakery|vsize", processMonitor.get('vsize'));
             },
 
             //heap total
             function(){
               sendRequest(server, "GET",
-               server + "|totalHeap", processMonitor.get('heap%20total')/8);
+               "nodebakery|totalHeap", processMonitor.get('heap%20total')/8);
             },
             //heap used
             function(){
               sendRequest(server, "GET",
-               server + "|usedHeap", processMonitor.get('heap%20used')/8);
+               "nodebakery|usedHeap", processMonitor.get('heap%20used')/8);
             },
             //heap free
             function(){
               sendRequest(server, "GET",
-               server + "|heap%20free", (processMonitor.get('heapTotal') - processMonitor.get('heapUsed'))/8);
+               "nodebakery|heap%20free", (processMonitor.get('heapTotal') - processMonitor.get('heapUsed'))/8);
             }
 
           ]);
@@ -79,29 +79,29 @@ module.exports = {
           async.parallel([
             //Load AVG
             function(){
-              sendRequest(server, "GET", server + "|load%20avg%20(/min)",  processMonitor.get('loadavg')[0]);
-              sendRequest(server, "GET", server + "|load%20avg%20(/5%20min)",  processMonitor.get('loadavg')[1]);
-              sendRequest(server, "GET", server + "|load%20avg%20(/15%20min)",  processMonitor.get('loadavg')[2]);
+              sendRequest(server, "GET", "nodebakery|load%20avg%20(/min)",  processMonitor.get('loadavg')[0]);
+              sendRequest(server, "GET", "nodebakery|load%20avg%20(/5%20min)",  processMonitor.get('loadavg')[1]);
+              sendRequest(server, "GET", "nodebakery|load%20avg%20(/15%20min)",  processMonitor.get('loadavg')[2]);
             },
 
             //OS Uptime
             function(){
-              sendRequest(server, "GET", server + "|OS%20uptime", processMonitor.get('osUptime'));
+              sendRequest(server, "GET", "nodebakery|OS%20uptime", processMonitor.get('osUptime'));
             },
 
             //Free memory
             function(){
-              sendRequest(server, "GET", server + "|free%20memory", (processMonitor.get('freemem')/8));
+              sendRequest(server, "GET", "nodebakery|free%20memory", (processMonitor.get('freemem')/8));
             },
 
             //Total memory
             function(){
-              sendRequest(server, "GET", server + "|total%20memory", (processMonitor.get('totalmem')/8));
+              sendRequest(server, "GET", "nodebakery|total%20memory", (processMonitor.get('totalmem')/8));
             },
             
             //Memory used
             function(){
-              sendRequest(server, "GET", server + "|used%20memory", (processMonitor.get('totalmem') - processMonitor.get('freemem'))/8);
+              sendRequest(server, "GET", "nodebakery|used%20memory", (processMonitor.get('totalmem') - processMonitor.get('freemem'))/8);
             },
 
             //CPUs
@@ -111,7 +111,7 @@ module.exports = {
               for(i=0; i<processMonitor.get('cpus').length; i++){
                 cpu = processMonitor.get('cpus')[i];
                 
-                sendRequest(server, "GET", server + "|CPU%20" + i + "|util%20time", ((cpu.times.sys + cpu.times.user)/100000));
+                sendRequest(server, "GET", "nodebakery|CPU%20" + i + "|util%20time", ((cpu.times.sys + cpu.times.user)/100000));
             
               }
             }
