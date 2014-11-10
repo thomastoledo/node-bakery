@@ -158,8 +158,6 @@ function sendConcurrentInvocations(map){
 	Object.keys(map).sort(function( a, b ) {
     	return a.localeCompare( b );
 	}).forEach(function( element, index, array ) {
-
-    	var req = "mon serveur";
     	sendRequest(req, "GET", "Functions|" + element.substring(prefix.length, element.length) + ":Concurrent%20Invocations", map[element].nbTrans);
 	});
 }
